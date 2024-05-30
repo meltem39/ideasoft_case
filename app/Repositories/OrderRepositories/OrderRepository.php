@@ -87,8 +87,9 @@ class OrderRepository extends EloquentBaseRepository implements OrderRepositoryI
         $product = ProductRepository::productDetail($data["product_id"]);
         $order = $this->model->where("customer_id", $customer_id)->where("status", false)->first();
         $items = $order->items()->where("product_id", $data["product_id"]);
+        $sum = $product["stock"]+$items->first()["quantity"];
         Product::whereId($data["product_id"])->update([
-            "stock" => $product["stock"]+$items->first()["quantity"]
+            "stock" => $sum
         ]);
 
         $items->delete();

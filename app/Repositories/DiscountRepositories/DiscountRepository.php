@@ -53,12 +53,19 @@ class DiscountRepository extends EloquentBaseRepository implements DiscountRepos
             if ($order_item->category_id == 1){
                 $case_1["detail"]["category_id"] = 1;
                 $case_1["items"][] = $order_item;
+            }else {
+                $case_1["detail"]["category_id"] = 1;
+                $case_1["items"][] = 0;
             }
             if ($order_item->category_id == 2){
                 $case_2["detail"]["category_id"] = 2;
                 $case_2["items"][] = $order_item;
+            } else{
+                $case_2["detail"]["category_id"] = 2;
+                $case_2["items"][] = 0;
             }
         }
+
         $case_1["detail"]["item_numbers"] = array_sum(array_column($case_1["items"], "quantity"));
         $case_2["detail"]["item_numbers"] = array_sum(array_column($case_2["items"], "quantity"));
         return [$case_1, $case_2];
